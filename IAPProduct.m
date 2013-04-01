@@ -12,6 +12,8 @@
 @property (nonatomic, readwrite, strong) const NSString* state;
 @property (nonatomic, strong) NSMutableArray* observers;
 @property (nonatomic, readwrite, strong) NSUserDefaults* settings;
+
+@property (nonatomic, readwrite, strong) NSError* lastNSError;
 @end
 
 @implementation IAPProduct
@@ -117,6 +119,7 @@ const NSString* kEventRestoreEnded = @"RestoreEnded";
         }
         case SKPaymentTransactionStateFailed: {
             if (self.state == kStatePurchasing) {
+                self.lastNSError = skTransaction.error;
                 [self.stateMachine applyEvent:kEventSetError];
                 [self.stateMachine applyEvent:kEventRecoverToReadyForSale];
             }
@@ -142,6 +145,7 @@ const NSString* kEventRestoreEnded = @"RestoreEnded";
 
 - (void)restoreFailedWithError:(NSError*)error {
     if (self.state == kStateRestoring) {
+        self.lastNSError = error;
         [self.stateMachine applyEvent:kEventSetError];    
         [self.stateMachine applyEvent:kEventRecoverToReadyForSale];
     }

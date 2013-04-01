@@ -13,6 +13,8 @@
 @property (nonatomic, readonly, assign) BOOL isRestored;
 @property (nonatomic, readonly, assign) BOOL isRestoring;
 
+@property (nonatomic, readonly, strong) NSError* lastNSError;
+
 - (void)addObserver:(id<IAPProductObserver>)iapProductObserver;
 - (void)removeObserver:(id<IAPProductObserver>)iapProductObserver;
 - (void)purchase;
@@ -21,6 +23,8 @@
 @end
 
 @protocol IAPProductObserver <NSObject>
+
 @optional
 - (void)iapProductWasUpdated:(IAPProduct*)iapProduct;
+
 @end
