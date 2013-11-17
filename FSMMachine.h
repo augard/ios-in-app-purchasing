@@ -1,3 +1,4 @@
+@import Foundation;
 @class FSMState;
 
 @interface FSMMachine : NSObject
