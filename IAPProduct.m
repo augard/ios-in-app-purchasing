@@ -130,6 +130,10 @@ const NSString* kEventRestoreEnded = @"RestoreEnded";
                 [self.stateMachine applyEvent:kEventSetRestored];
             break;
         }
+        case SKPaymentTransactionStateDeferred:
+        case SKPaymentTransactionStatePurchasing: {
+            break;
+        }
     }
     [self save];
 }
