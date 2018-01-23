@@ -139,10 +139,6 @@ const NSString* kEventRestoreEnded = @"RestoreEnded";
             // skip
             break;
         }
-        case SKPaymentTransactionStateDeferred:
-        case SKPaymentTransactionStatePurchasing: {
-            break;
-        }
     }
     [self save];
 }
