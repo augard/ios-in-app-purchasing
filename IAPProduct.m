@@ -112,9 +112,14 @@ const NSString* kEventRestoreEnded = @"RestoreEnded";
 
 - (void)updateWithSKPaymentTransaction:(SKPaymentTransaction*)skTransaction {
     switch (skTransaction.transactionState) {
+        case SKPaymentTransactionStatePurchasing: {
+            [self.stateMachine applyEvent:kEventSetPurchasing];
+            break;
+        }
         case SKPaymentTransactionStatePurchased: {
-            if (self.state == kStatePurchasing) 
+            if (self.state == kStatePurchasing) {
                 [self.stateMachine applyEvent:kEventSetPurchased];
+            }
             break;
         }
         case SKPaymentTransactionStateFailed: {
@@ -127,7 +132,11 @@ const NSString* kEventRestoreEnded = @"RestoreEnded";
         }
         case SKPaymentTransactionStateRestored: {
             if (self.state == kStateRestoring)
-                [self.stateMachine applyEvent:kEventSetRestored];
+            [self.stateMachine applyEvent:kEventSetRestored];
+            break;
+        }
+        case SKPaymentTransactionStateDeferred: {
+            // skip
             break;
         }
         case SKPaymentTransactionStateDeferred:
